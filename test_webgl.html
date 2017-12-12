@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--脚本的相关引用-->
+    <script type="text/javascript" src="assets/corporate/scripts/three.js"></script>
+    <script type="text/javascript" src="assets/corporate/scripts/stats.min.js"></script>
+    <script type="text/javascript" src="assets/corporate/scripts/MyWebGL.js"></script>
+    <script type="text/javascript" src="assets/corporate/scripts/MTLLoader.js"></script>
+    <script type="text/javascript" src="assets/corporate/scripts/OBJLoader.js"></script>
+    <script type="text/javascript" src="assets/config/item_config.js"></script>
+
+</head>
+
+
+<body onload="init(item_list[1].model_url,null,item_list[1].texture_url)">
+<canvas id = "mainCanvas" width="800px" height="600px"></canvas>
+<button id = "stopbtn" onclick="stop()">停止按钮</button><br>
+<p id = "progressBar"></p>
+</body>
+</html>
