@@ -14,9 +14,10 @@ Type.type7 = 6;
 var item_list = {};
 
 item_list[1] = new Item(1, 5, Type.type1, 100, "assets/models/5.obj", null, "assets/models/5.jpg");
+item_list[2] = new Item(2, 5, Type.type2, 100, "assets/models/sofa.obj", "assets/models/sofa.mtl", null);
 
 function Item(id, name, type, price, model_url, material_url, texture_url) {
-    this.id = id
+    this.id = id;
     this.name = name;
     this.type = type;
     this.price = price;

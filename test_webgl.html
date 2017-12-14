@@ -14,9 +14,11 @@
 </head>
 
 
-<body onload="init(item_list[1].model_url,null,item_list[1].texture_url)">
-<canvas id = "mainCanvas" width="800px" height="600px"></canvas>
-<button id = "stopbtn" onclick="stop()">停止按钮</button><br>
-<p id = "progressBar"></p>
+<body onload="initWebGL(item_list[2].model_url,item_list[2].material_url,item_list[2].texture_url,'itemCanvas')">
+<canvas id = "itemCanvas" width="800px" height="600px"></canvas>
+<button id = "stopbtn" onclick="itemDrawStop()">停止</button><br>
+<div id = "itemCanvas_progress_div" style="z-index: 2; position:absolute; left:120px; top:160px;">
+    <h2>Loading Model...</h2><progress id = "itemCanvas_progress" value="0" max="100"></progress>
+</div>
 </body>
 </html>

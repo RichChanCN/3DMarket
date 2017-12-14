@@ -1,19 +1,33 @@
 var item_scene,item_renderer,objloader,mtlloader,
     item_camera,item_mesh,item_stat,item_drawID,item_canvas,
-    touch_flag;
+    touch_flag,item_canvasID;
 
 var item_light1,item_light2;
 
-function init(obj_url,mtl_url,image_url) {
+var cur_model_info = {};
+
+function changeWebGLState(index, canvas) {
+    cur_model_info.model_url = item_list[index].model_url;
+    cur_model_info.material_url = item_list[index].material_url;
+    cur_model_info.texture_url = item_list[index].texture_url;
+    cur_model_info.canvas_id = canvas;
+}
+
+function initWebGL(obj_url,mtl_url,image_url,canvas_id) {
     //初始化状态监测
     statInit();
     //创建一个渲染器对象
     item_renderer = new THREE.WebGLRenderer({
-        canvas: document.getElementById("mainCanvas")
+        canvas: document.getElementById(canvas_id)
     });
+    item_canvasID = canvas_id;
+
+    //清除画布内容
+    clearCanvas(item_canvasID);
 
     //初始化
-    initControl();
+    initProgressBar();
+    initControl(canvas_id);
     initScene();
     initCamera();
     initLight();
@@ -23,17 +37,33 @@ function init(obj_url,mtl_url,image_url) {
 
 
 }
+//初始化进度条
+function initProgressBar() {
+    document.getElementById(item_canvasID+"_progress_div").style.display = 'block';
+    document.getElementById(item_canvasID+"_progress").value = 0;
+}
+
 //创建一个场景对象
 function initScene() {
+    if (item_scene != null)
+        return;
     item_scene = new THREE.Scene();
-    item_scene.background = new THREE.Color( 0x999999 );
+    item_scene.background = new THREE.Color( 0xcccccc );
 }
 
 //创建一个摄像机对象，并且设置相关属性
 function initCamera() {
-    item_camera = new THREE.PerspectiveCamera(45,4/3,1,1000);
-    item_camera.position.set(0,50,50);
-    item_camera.lookAt(new THREE.Vector3(0,0,0));
+    var ratio = document.getElementById(item_canvasID).width/document.getElementById(item_canvasID).height;
+
+    if (item_camera != null){
+        item_scene.remove(item_camera);
+        item_camera = new THREE.PerspectiveCamera(45,ratio,1,1000);
+    }
+    else
+        item_camera = new THREE.PerspectiveCamera(45,ratio,1,1000);
+
+    item_camera.position.set(0,60,50);
+    item_camera.lookAt(new THREE.Vector3(0,10,0));
 
     //把摄像机添加到场景中
     item_scene.add(item_camera);
@@ -41,23 +71,33 @@ function initCamera() {
 
 //上帝说要有光
 function initLight() {
-    item_light1 = new THREE.PointLight(0xffffff, 2, 100);
-    item_light1.position.set(0,30,0);
-    item_scene.add(item_light1);
+    if (item_light1 == null){
+        item_light1 = new THREE.PointLight(0xffffff, 2, 100);
+        item_scene.add(item_light1);
+    }
 
-    item_light2 = new THREE.PointLight(0xffffff, 2, 100);
+    if (item_light2 == null){
+        item_light2 = new THREE.PointLight(0xffffff, 2, 100);
+        item_scene.add(item_light2);
+    }
+
+    item_light1.position.set(0,30,0);
     item_light2.position.set(0,0,20);
-    item_scene.add(item_light2);
 }
 
 function initLoader() {
     //创建一个模型加载器对象和材质加载器对象
-    objloader = new THREE.OBJLoader();
-    mtlloader = new THREE.MTLLoader();
+    if (objloader == null)
+        objloader = new THREE.OBJLoader();
+
+    if (mtlloader == null)
+        mtlloader = new THREE.MTLLoader();
 }
 
 //加载模型
 function loadModels(obj_url,mtl_url,image_url) {
+    if(item_mesh != null)
+        item_scene.remove(item_mesh);
 
     if (image_url != null){
         var texture = THREE.ImageUtils.loadTexture(image_url,{});
@@ -73,13 +113,13 @@ function loadModels(obj_url,mtl_url,image_url) {
                     }
                 });
                 item_mesh = obj;
-                item_scene.add(obj);
+                item_scene.add(item_mesh);
                 item_renderer.render(item_scene,item_camera);
-                draw();
+                beginTheFirstFrame();
             },
 
             function ( xhr ) {
-                document.getElementById("progressBar").innerHTML=( xhr.loaded / xhr.total * 100 ).toFixed(1) + '% loaded';
+                document.getElementById(item_canvasID+"_progress").value = ( xhr.loaded / xhr.total * 100 ).toFixed(0);
                 //console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
             }
         );
@@ -103,16 +143,22 @@ function loadModels(obj_url,mtl_url,image_url) {
                 item_mesh = obj;
                 item_scene.add(obj);
                 item_renderer.render(item_scene,item_camera);
-                draw();
+                beginTheFirstFrame();
             },
 
             function ( xhr ) {
-                document.getElementById("progressBar").innerHTML=( xhr.loaded / xhr.total * 100 ).toFixed(1) + '% loaded';
+                document.getElementById(item_canvasID+"_progress").value = ( xhr.loaded / xhr.total * 100 ).toFixed(0);
+                //document.getElementById("progressBar").innerHTML=( xhr.loaded / xhr.total * 100 ).toFixed(1) + '% loaded';
                 //console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
             }
         );
     }
+}
 
+//开始第一帧渲染前的操作
+function beginTheFirstFrame() {
+    document.getElementById(item_canvasID+"_progress_div").style.display = 'none';
+    draw();
 }
 
 //绘制函数开始
@@ -145,15 +191,28 @@ function updateCamera(ds) {
     item_camera.position.z += ds;
 }
 //动画停止函数
-function stop() {
+function itemDrawStop() {
     if(item_drawID != null){
-        cancelAnimationFrame(item_drawID)
+        cancelAnimationFrame(item_drawID);
         item_drawID = null;
     }
+    touch_flag = null;
+    //THREE.Cache.clear()
+    clearCanvas(item_canvasID)
+}
+function clearCanvas(canvas_id)
+{
+    var c=document.getElementById(canvas_id);
+    var gl = c.getContext('webgl') || c.getContext("experimental-webgl");
+    gl.clearColor(1,1,1,1);
+    gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
 //帧数检测函数
 function statInit() {
+    if(item_stat != null)
+        return;
+
     item_stat = new Stats();
     item_stat.domElement.style.position = 'absolute';
     item_stat.domElement.style.left = '900px';
@@ -257,8 +316,8 @@ function wheelHandler(ev) {
     ev.preventDefault();
     updateCamera(ds);
 }
-function initControl(){
-    item_canvas = document.getElementById("mainCanvas");
+function initControl(canvas_id){
+    item_canvas = document.getElementById(canvas_id);
     item_canvas.addEventListener('DOMMouseScroll', wheelHandler, false);
     item_canvas.addEventListener('mousewheel', wheelHandler, false);
     item_canvas.addEventListener('mousedown', mymousedown, false);
