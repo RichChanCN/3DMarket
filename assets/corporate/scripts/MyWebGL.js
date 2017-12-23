@@ -62,8 +62,8 @@ function initCamera() {
     else
         item_camera = new THREE.PerspectiveCamera(45,ratio,1,1000);
 
-    item_camera.position.set(0,60,50);
-    item_camera.lookAt(new THREE.Vector3(0,10,0));
+    item_camera.position.set(0,12,10);
+    item_camera.lookAt(new THREE.Vector3(0,2,0));
 
     //把摄像机添加到场景中
     item_scene.add(item_camera);
@@ -152,6 +152,43 @@ function loadModels(obj_url,mtl_url,image_url) {
                 //console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
             }
         );
+    }
+}
+
+function changeModelMtl(index) {
+    mtlloader.load("assets/models/sofa2.mtl",mtl);
+
+    function mtl(materials) {
+        item_mesh.traverse(function (child) {
+            if (child instanceof THREE.Mesh){
+                var createdMaterials = [];
+
+                for ( var mi = 0, miLen = child.material.length; mi < miLen; mi ++ ) {
+
+                    var sourceMaterial = child.material[ mi ];
+                    var material = undefined;
+
+                    if ( materials !== null ) {
+
+                        material = materials.create( sourceMaterial.name );
+
+                    }
+
+                    if ( ! material ) {
+
+                        material = new THREE.MeshPhongMaterial();
+                        material.name = sourceMaterial.name;
+
+                    }
+
+                    material.flatShading = !sourceMaterial.smooth;
+
+                    createdMaterials.push( material );
+
+                }
+                child.material = createdMaterials;
+            }
+        });
     }
 }
 
