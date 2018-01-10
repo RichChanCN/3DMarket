@@ -1825,7 +1825,7 @@
 					$('body').css('margin-right', getScalar( this.margin ) + obj.scrollbarWidth);
 				}
 			}
-
+			initFastViewInfo();
 			this.open(opts);
 		},
 

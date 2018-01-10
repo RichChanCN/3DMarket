@@ -1,16 +1,31 @@
-var item_scene,item_renderer,objloader,mtlloader,
+var item_scene,item_renderer,objloader,mtlloader,jsonloader,objectloader,
     item_camera,item_mesh,item_stat,item_drawID,item_canvas,
     touch_flag,item_canvasID;
 
 var item_light1,item_light2;
 
-var cur_model_info = {};
+var cur_model_info;
 
 function changeWebGLState(index, canvas) {
-    cur_model_info.model_url = item_list[index].model_url;
-    cur_model_info.material_url = item_list[index].material_url;
-    cur_model_info.texture_url = item_list[index].texture_url;
+    cur_model_info = item_list[index];
     cur_model_info.canvas_id = canvas;
+}
+
+function initFastViewInfo() {
+    document.getElementById("item_name").innerHTML = cur_model_info.name;
+    document.getElementById("item_description").innerHTML = cur_model_info.description;
+    document.getElementById("item_price").innerHTML = cur_model_info.price;
+    document.getElementById("item_cur_price").innerHTML = "<span>￥</span>" + cur_model_info.cur_price;
+    document.getElementById("item_length").innerHTML = cur_model_info.length + "cm";
+    document.getElementById("item_width").innerHTML = cur_model_info.width + "cm";
+    document.getElementById("item_height").innerHTML = cur_model_info.height + "cm";
+    document.getElementById("item_weight").innerHTML = cur_model_info.weight + "kg";
+    document.getElementById("item_stock").innerHTML = cur_model_info.stock;
+    document.getElementById("item_materials").innerHTML = cur_model_info.materials;
+    document.getElementById("item_use_case").innerHTML = cur_model_info.use_case;
+    document.getElementById("item_brand").innerHTML = cur_model_info.brand;
+    document.getElementById("item_made_in").innerHTML = cur_model_info.made_in;
+
 }
 
 function initWebGL(obj_url,mtl_url,image_url,canvas_id) {
@@ -90,6 +105,12 @@ function initLoader() {
     if (objloader == null)
         objloader = new THREE.OBJLoader();
 
+    if (jsonloader == null)
+        jsonloader = new THREE.JSONLoader();
+
+    if (objectloader == null)
+        objectloader = new THREE.ObjectLoader();
+
     if (mtlloader == null)
         mtlloader = new THREE.MTLLoader();
 }
@@ -98,6 +119,38 @@ function initLoader() {
 function loadModels(obj_url,mtl_url,image_url) {
     if(item_mesh != null)
         item_scene.remove(item_mesh);
+
+    // objectloader.load(obj_url,
+    //     function( obj ) {
+    //         item_mesh = obj
+    //         item_mesh.scale.x = item_mesh.scale.y = item_mesh.scale.z =1;
+    //         item_scene.add(item_mesh);
+    //         item_renderer.render(item_scene,item_camera);
+    //         beginTheFirstFrame();
+    //     },
+    //
+    //     function ( xhr ) {
+    //         document.getElementById(item_canvasID+"_progress").value = ( xhr.loaded / xhr.total * 100 ).toFixed(0);
+    //         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    //     });
+
+    // jsonloader.load(obj_url,
+    //     function( geometry, materials ) {
+    //
+    //         item_mesh = new THREE.Mesh( geometry, materials);
+    //         item_mesh.position.x = 0;
+    //         item_mesh.position.y = 0;
+    //         item_mesh.position.z = 0;
+    //         item_mesh.scale.x = item_mesh.scale.y = item_mesh.scale.z =1;
+    //         item_scene.add(item_mesh);
+    //         item_renderer.render(item_scene,item_camera);
+    //         beginTheFirstFrame();
+    //     },
+    //
+    //     function ( xhr ) {
+    //         document.getElementById(item_canvasID+"_progress").value = ( xhr.loaded / xhr.total * 100 ).toFixed(0);
+    //         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    //     });
 
     if (image_url != null){
         var texture = THREE.ImageUtils.loadTexture(image_url,{});
@@ -157,7 +210,6 @@ function loadModels(obj_url,mtl_url,image_url) {
 
 function changeModelMtl(index) {
     mtlloader.load("assets/models/sofa2.mtl",mtl);
-
     function mtl(materials) {
         item_mesh.traverse(function (child) {
             if (child instanceof THREE.Mesh){
