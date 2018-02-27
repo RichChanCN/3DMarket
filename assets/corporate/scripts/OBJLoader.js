@@ -8,7 +8,7 @@ THREE.OBJLoader = ( function () {
 	var object_pattern = /^[og]\s*(.+)?/;
 	// mtllib file_reference
 	var material_library_pattern = /^mtllib /;
-	// usemtl material_name
+	// usemtl material_group
 	var material_use_pattern = /^usemtl /;
 
 	function ParserState() {

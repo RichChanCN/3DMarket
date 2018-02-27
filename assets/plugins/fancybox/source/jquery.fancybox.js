@@ -1748,6 +1748,7 @@
 						}
 
                         itemDrawStop();
+						refreshPage();
 					}
 				});
 			}
@@ -1771,6 +1772,8 @@
 			if (this.el) {
 				this.el.removeClass('fancybox-lock');
 			}
+
+            refreshPage();
 		},
 
 		// Private, callbacks
@@ -1833,7 +1836,7 @@
 			if (!this.fixed) {
 				this.update();
 			}
-            initWebGL(cur_model_info.model_url,cur_model_info.material_url,cur_model_info.texture_url,cur_model_info.canvas_id)
+            initWebGL(cur_model_info.model_name,cur_model_info.material_group,cur_model_info.canvas_id)
 		},
 
 		afterClose: function (opts) {

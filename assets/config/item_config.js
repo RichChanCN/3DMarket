@@ -25,88 +25,89 @@ UseCase.Diningroom = "餐厅";
 UseCase.Studyroom = "书房";
 UseCase.Other = "其他";
 
+var my_path = {};
+my_path.ModelPath = "assets/models/obj/";
+my_path.MaterialPath = "assets/models/mtl/";
+my_path.TexturePath = "assets/models/tex/";
 
+//最先使用的物品list
 var item_list = {};
 
-item_list[1] = new Item(
-    1, Type.type1, UseCase.Other,       //id, 类型, 适用于
-    "宜家",                              //品牌
-    "喷火龙",                            //名称
-    100, 95,                            //原价格, 当前价格
-    "assets/models/5.obj",              //模型资源路径
-    null,                               //材质路径
-    "assets/models/5.jpg",              //贴图路径
-    110, 90, 70, 120,                   //长(cm)宽(cm)高(cm)重(kg)
-    "龙肉",                              //构成材质
-    "这是一条萌萌哒喷火龙！",               //描述
-    "日本",                              //产地
-    StockState[0]                       //库存
-);
+//单个物品页面的物品信息
+var item_data;
 
-item_list[2] = new Item(
-    1, Type.type1, UseCase.Livingroom,  //id, 类型， 适用于
-    "宜家",                              //品牌
-    "沙发",                              //名称
-    100, 95,                            //原价格, 当前价格
-    "assets/models/sofa1.obj",          //模型资源路径
-    "assets/models/sofa1.mtl",          //材质路径
-    null,                               //贴图路径
-    110, 90, 70, 80,                    //长(cm)宽(cm)高(cm)重(kg)
-    "棉，麻",                            //构成材质
-    "这是一款舒适的沙发！",                 //描述
-    "中国",                              //产地
-    StockState[1]                       //库存
-);
+//分类物品展示的物品列表
+var product_list = {};
 
-item_list[3] = new Item(
-    1, Type.type1, UseCase.Studyroom,      //id, 类型, 适用于
-    "宜家",                                 //品牌
-    "学习桌",                                //名称
-    100, 95,                                //原价格, 当前价格
-    "assets/models/ModernDeskOBJ.obj",      //模型资源路径
-    "assets/models/ModernDeskOBJ.mtl",      //材质路径
-    null,                                   //贴图路径
-    110, 50, 45, 100,                       //长(cm)宽(cm)高(cm)重(kg)
-    "紫檀木，不锈钢",                          //构成材质
-    "这是一张学习用的桌子！",                    //描述
-    "中国",                                   //产地
-    StockState[2]                           //库存
-);
+//主页展示的物品
+var main_page_item_list = {};
 
+//大场景里面的物品列表
+var scene_item_list = {};
 
-item_list[4] = new Item(
-    1, Type.type1, UseCase.Studyroom,      //id, 类型, 适用于
-    "宜家",                                 //品牌
-    "学习桌",                                //名称
-    100, 95,                                //原价格, 当前价格
-    "assets/models/json/chaji.json",        //模型资源路径
-    null,      //材质路径
-    null,                                   //贴图路径
-    110, 50, 45, 100,                       //长(cm)宽(cm)高(cm)重(kg)
-    "紫檀木，不锈钢",                          //构成材质
-    "这是一张学习用的桌子！",                    //描述
-    "中国",                                   //产地
-    StockState[2]                           //库存
-);
+function ItemInfo(id, use_case, type, name, price, discount, length, width, height, area, brand, materials, description, made_in, stock, style_num, is_new, style, introduction) {
 
+    this.material_group = {};
+    for (var i=0;i<style_num;i++)
+    {
+        this.material_group[i] = id.toString()+"_"+(i+1)+".mtl";
+    }
 
-function Item(id, type, use_case, brand, name, price, cur_price, model_url, material_url, texture_url, length, width, height, weight, materials, description, made_in, stock) {
     this.id = id;
     this.type = type;
     this.use_case = use_case;
     this.brand = brand;
     this.name = name;
     this.price = price;
-    this.cur_price = cur_price;
-    this.model_url = model_url;
-    this.material_url = material_url;
-    this.texture_url = texture_url;
+    this.discount = discount;
+    this.cur_price = (price * discount).toFixed(0);
+    this.model_name = id.toString()+".obj";
+
     this.length = length;
     this.width = width;
     this.height = height;
-    this.weight = weight;
+    this.area = area;
     this.materials = materials;
     this.description = description;
     this.made_in = made_in;
     this.stock = stock;
+    this.is_new = is_new;
+    this.style = style;
+    this.introduction = introduction;
 }
+
+function clearProductList() {
+    product_list = {};
+}
+function clearMainPageItemList() {
+    product_list = {};
+}
+
+function clearSceneItemList() {
+    scene_item_list = {};
+}
+
+var scene_item_info = {};
+scene_item_info[148] = {};
+scene_item_info[149] = {};
+scene_item_info[150] = {};
+scene_item_info[151] = {};
+scene_item_info[152] = {};
+scene_item_info[153] = {};
+scene_item_info[154] = {};
+scene_item_info[155] = {};
+scene_item_info[156] = {};
+scene_item_info[157] = {};
+
+scene_item_info[148].x =  20;scene_item_info[148].z =  20;scene_item_info[148].scale_rate = 1;scene_item_info[148].yaw = 1;
+scene_item_info[149].x =  15;scene_item_info[149].z =  15;scene_item_info[149].scale_rate = 1;scene_item_info[149].yaw = 1;
+scene_item_info[150].x =  10;scene_item_info[150].z =  10;scene_item_info[150].scale_rate = 1;scene_item_info[150].yaw = 1;
+scene_item_info[151].x =  20;scene_item_info[151].z = -20;scene_item_info[151].scale_rate = 1;scene_item_info[151].yaw = 1;
+scene_item_info[152].x =  15;scene_item_info[152].z = -15;scene_item_info[152].scale_rate = 1;scene_item_info[152].yaw = 1;
+scene_item_info[153].x = -15;scene_item_info[153].z = -20;scene_item_info[153].scale_rate = 1;scene_item_info[153].yaw = 1;
+scene_item_info[154].x = -15;scene_item_info[154].z = -10;scene_item_info[154].scale_rate = 1;scene_item_info[154].yaw = 1;
+scene_item_info[155].x = -15;scene_item_info[155].z =   0;scene_item_info[155].scale_rate = 1;scene_item_info[155].yaw = 1;
+scene_item_info[156].x = -15;scene_item_info[156].z =  10;scene_item_info[156].scale_rate = 1;scene_item_info[156].yaw = 1;
+scene_item_info[157].x = -15;scene_item_info[157].z =  20;scene_item_info[157].scale_rate = 1;scene_item_info[157].yaw = 1;
+
+
