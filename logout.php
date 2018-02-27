@@ -1,0 +1,22 @@
+<?php
+session_start();
+if(isset($_SESSION['user_name']))
+{
+    unset($_SESSION['user_name']);
+}
+if(isset($_SESSION['user_address']))
+{
+    unset($_SESSION['user_address']);
+}
+if(isset($_SESSION['user_id']))
+{
+    unset($_SESSION['user_id']);
+}
+if(isset($_SESSION['is_login']))
+{
+    unset($_SESSION['is_login']);
+}
+
+session_destroy();
+header("Refresh:0.5;url=shop-login.php");
+?>

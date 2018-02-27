@@ -1,0 +1,27 @@
+newmtl _wire_088177027
+illum 4
+Kd 1.00 1.00 1.00
+Ka 1.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd TEXTURA TELA (1).jpeg
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 98.00
+newmtl _wire_113135006
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.44 0.53 0.02
+Tf 1.00 1.00 1.00
+map_Kd 0010.JPG
+Ni 1.00
+Ks 0.35 0.35 0.35
+Ns 32.00
+newmtl _wire_214228153
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.43 0.13 0.00
+Tf 1.00 1.00 1.00
+map_Kd orange.jpg
+Ni 1.00
+Ks 0.35 0.35 0.35
+Ns 32.00
