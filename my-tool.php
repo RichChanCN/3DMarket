@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "rq579687";
+$password = "123456";
 $dbname = "3dmarket";
 
 class Item{
