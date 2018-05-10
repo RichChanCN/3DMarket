@@ -227,6 +227,7 @@ $conn->close();
 <script type="text/javascript" src="assets/corporate/scripts/OrbitControls.js"></script>
 <script type="text/javascript" src="assets/corporate/scripts/MTLLoader.js"></script>
 <script type="text/javascript" src="assets/corporate/scripts/OBJLoader.js"></script>
+<script type="text/javascript" src="assets/corporate/scripts/JSONLoader.js"></script>
 <script type="text/javascript" src="assets/corporate/scripts/MyWebGL.js"></script>
 <!-- WebGl Scripts END -->
 <script type="text/javascript" src="assets/corporate/scripts/PointerLockControls.js"></script>

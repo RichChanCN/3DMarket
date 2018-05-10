@@ -56,7 +56,7 @@ function addOrderFromFastView(model_info) {
     model_info = model_info || cur_model_info;
     var id = model_info.id;
     var amount = document.getElementById("item_amount").value;
-    var style = document.getElementById("item_style").value;
+    var style = document.getElementById("cur_style").value;
 
     if(amount<1){
         alert("数量不能为0，请至少选择一件！");

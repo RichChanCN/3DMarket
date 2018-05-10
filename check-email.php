@@ -1,8 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "rq579687";
-$dbname = "3dmarket";
+require_once "my-tool.php";
 
 session_start();
 

@@ -1,57 +1,3 @@
-import {
-	UVMapping,
-	CubeReflectionMapping,
-	CubeRefractionMapping,
-	EquirectangularReflectionMapping,
-	EquirectangularRefractionMapping,
-	SphericalReflectionMapping,
-	CubeUVReflectionMapping,
-	CubeUVRefractionMapping,
-
-	RepeatWrapping,
-	ClampToEdgeWrapping,
-	MirroredRepeatWrapping,
-
-	NearestFilter,
-	NearestMipMapNearestFilter,
-	NearestMipMapLinearFilter,
-	LinearFilter,
-	LinearMipMapNearestFilter,
-	LinearMipMapLinearFilter
-} from '../constants.js';
-import { Color } from '../math/Color.js';
-import { Matrix4 } from '../math/Matrix4.js';
-import { Object3D } from '../core/Object3D.js';
-import { Group } from '../objects/Group.js';
-import { Sprite } from '../objects/Sprite.js';
-import { Points } from '../objects/Points.js';
-import { Line } from '../objects/Line.js';
-import { LineLoop } from '../objects/LineLoop.js';
-import { LineSegments } from '../objects/LineSegments.js';
-import { LOD } from '../objects/LOD.js';
-import { Mesh } from '../objects/Mesh.js';
-import { SkinnedMesh } from '../objects/SkinnedMesh.js';
-import { Fog } from '../scenes/Fog.js';
-import { FogExp2 } from '../scenes/FogExp2.js';
-import { HemisphereLight } from '../lights/HemisphereLight.js';
-import { SpotLight } from '../lights/SpotLight.js';
-import { PointLight } from '../lights/PointLight.js';
-import { DirectionalLight } from '../lights/DirectionalLight.js';
-import { AmbientLight } from '../lights/AmbientLight.js';
-import { RectAreaLight } from '../lights/RectAreaLight.js';
-import { OrthographicCamera } from '../cameras/OrthographicCamera.js';
-import { PerspectiveCamera } from '../cameras/PerspectiveCamera.js';
-import { Scene } from '../scenes/Scene.js';
-import { Texture } from '../textures/Texture.js';
-import { ImageLoader } from './ImageLoader.js';
-import { LoadingManager, DefaultLoadingManager } from './LoadingManager.js';
-import { AnimationClip } from '../animation/AnimationClip.js';
-import { MaterialLoader } from './MaterialLoader.js';
-import { BufferGeometryLoader } from './BufferGeometryLoader.js';
-import { JSONLoader } from './JSONLoader.js';
-import { FileLoader } from './FileLoader.js';
-import * as Geometries from '../geometries/Geometries.js';
-
 /**
  * @author mrdoob / http://mrdoob.com/
  */
@@ -847,5 +793,3 @@ var TEXTURE_FILTER = {
 	LinearMipMapLinearFilter: LinearMipMapLinearFilter
 };
 
-
-export { ObjectLoader };

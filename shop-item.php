@@ -1,9 +1,4 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "rq579687";
-$dbname = "3dmarket";
-
 session_start();
 
 $id = $_GET["id"];

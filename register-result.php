@@ -1,8 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "rq579687";
-$dbname = "3dmarket";
+require_once "my-tool.php";
 
 // 创建连接
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -24,7 +21,6 @@ $data[8] = $_POST["post_code"];
 
 //$sql = "INSERT INTO user (nickname, email, password, telephone, country, province, city, address, post_code)
 //VALUES ($data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], $data[7], $data[8])";
-
 $sql = "INSERT INTO user (nickname, email, password, telephone, country, province, city, address, post_code)
 VALUES ('$_POST[nickname]','$_POST[email]', '$_POST[password]', '$_POST[telephone]', '$_POST[country]', '$_POST[province]', '$_POST[city]', '$_POST[address]', '$_POST[post_code]')";
 

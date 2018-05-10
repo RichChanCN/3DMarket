@@ -26,6 +26,7 @@ UseCase.Studyroom = "书房";
 UseCase.Other = "其他";
 
 var my_path = {};
+my_path.JsonPath = "assets/models/json/";
 my_path.ModelPath = "assets/models/obj/";
 my_path.MaterialPath = "assets/models/mtl/";
 my_path.TexturePath = "assets/models/tex/";

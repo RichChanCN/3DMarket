@@ -1,6 +1,6 @@
 var item_scene={},item_renderer={},objloader,mtlloader,
     item_camera={},item_mesh={},item_stat={},item_drawID={},item_canvas={},item_controls={},
-    touch_flag={},item_canvas_ID={};
+    touch_flag={},item_canvas_ID={},lod={};
 
 var item_light1={},item_light2={};
 
@@ -175,6 +175,8 @@ function changeModelMtl(mtl_index,index) {
         return;
     }
 
+    cur_model_info.style = mtl_index;
+
     mtlloader.setPath(my_path.MaterialPath);
     mtlloader.setTexturePath(my_path.TexturePath);
 
@@ -222,6 +224,8 @@ function changeMainModelMtl(model_info,index,mtl_index) {
         alert("暂时没有该种搭配！");
         return;
     }
+
+    model_info.style = mtl_index;
 
     mtlloader.setPath(my_path.MaterialPath);
     mtlloader.setTexturePath(my_path.TexturePath);
