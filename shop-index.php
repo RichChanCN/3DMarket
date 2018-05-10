@@ -279,6 +279,12 @@
 
                     </a>
                 </li>
+                <li class="dropdown dropdown-megamenu">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-target="shop-add-item.php" href="shop-add-item.php">
+                        管理
+
+                    </a>
+                </li>
 
                 <!-- BEGIN TOP SEARCH -->
                 <li class="menu-search">
