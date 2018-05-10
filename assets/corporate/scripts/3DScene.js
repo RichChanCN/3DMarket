@@ -265,9 +265,9 @@ function animate() {
         controls.getObject().translateY( velocity.y * delta );
         controls.getObject().translateZ( velocity.z * delta );
 
-        if ( controls.getObject().position.y < 10 ) {
+        if ( controls.getObject().position.y < 18 ) {
             velocity.y = 0;
-            controls.getObject().position.y = 10;
+            controls.getObject().position.y = 18;
         }
         prevTime = time;
     }
@@ -324,8 +324,8 @@ function loadCharacter(str) {
             material.morphTargets = true;
             material.color.setHex( 0xffffff );
             scene_character = new THREE.Mesh( geometry, materials );
-            scene_character.scale.set(0.3,0.3,0.3);
-            scene_character.position.set(0,-5,-3);
+            scene_character.scale.set(0.5,0.5,0.5);
+            scene_character.position.set(0,-8,-3);
             scene_character.rotateY(Math.PI);
             scene_character.matrixAutoUpdate = false;
             scene_character.updateMatrix();
