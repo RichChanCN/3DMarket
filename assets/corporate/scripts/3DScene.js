@@ -3,9 +3,8 @@
  */
 
 var scene_objloader, scene_mtlloader, character_loader;
-var scene_character;
+var scene_character, scene_arrow;
 var mixer;
-var character_animation;
 var raycaster_node;
 var model_index = 147;
 var cur_model_id;
@@ -72,7 +71,6 @@ var prevTime = performance.now();
 var velocity = new THREE.Vector3();
 var direction = new THREE.Vector3();
 
-var spotLight;
 
 function init() {
     initSceneLoader();
@@ -81,12 +79,7 @@ function init() {
     scene.background = new THREE.Color( 0xffffff );
     scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
-    var light = new THREE.HemisphereLight( 0xccccdd, 0x555566, 0.9 );
-
-    spotLight = new THREE.SpotLight( 0xffffff );
-    spotLight.position.set( 0, 30, 0 );
-    spotLight.angle = 0.2;
-    spotLight.penumbra = 0.5;
+    var light = new THREE.HemisphereLight( 0xddddff, 0x555566, 1 );
 
     light.position.set( 0.5, 1, 0.75 );
 
@@ -96,7 +89,6 @@ function init() {
     scene.add(raycaster_node);
 
     scene.add( light );
-    scene.add(spotLight);
 
     controls = new THREE.PointerLockControls( camera );
     scene.add( controls.getObject() );
@@ -213,15 +205,17 @@ function init() {
 
     var floorMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
     var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+    floor.receiveShadow = true;
     scene.add( floor );
     // objects
 
     //loadNextModel();
     loadCharacter('assets/models/json/character.js');
-
-    renderer = new THREE.WebGLRenderer();
+    loadArrowModel();
+    renderer = new THREE.WebGLRenderer({antialia:true});
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.shadowMapEnabled = true;
     document.body.appendChild( renderer.domElement );
     //
     window.addEventListener( 'resize', onWindowResize, false );
@@ -245,11 +239,11 @@ function animate() {
         direction.x = Number( moveLeft ) - Number( moveRight );
         direction.normalize(); // this ensures consistent movements in all directions
         if ( moveForward || moveBackward ){
-            velocity.z -= direction.z * 100.0 * delta;
+            velocity.z -= direction.z * 150.0 * delta;
             animation_playing = 2;
         }
         else if ( moveLeft || moveRight ){
-            velocity.x -= direction.x * 100.0 * delta;
+            velocity.x -= direction.x * 150.0 * delta;
             animation_playing = 2;
         }
         else if(sitted){
@@ -265,9 +259,9 @@ function animate() {
         controls.getObject().translateY( velocity.y * delta );
         controls.getObject().translateZ( velocity.z * delta );
 
-        if ( controls.getObject().position.y < 18 ) {
+        if ( controls.getObject().position.y < 17 ) {
             velocity.y = 0;
-            controls.getObject().position.y = 18;
+            controls.getObject().position.y = 17;
         }
         prevTime = time;
     }
@@ -279,24 +273,23 @@ function animate() {
         if ( INTERSECTED != intersects[ 0 ].object) {
             cur_model_id = intersects[ 0 ].object.parent.name;
             if(cur_model_id != "" && cur_model_id != null) {
-                spotLight.angle = 0.2;
-                spotLight.position.x = scene_item_info[cur_model_id].x;
-                spotLight.position.z = scene_item_info[cur_model_id].z;
-                spotLight.target = intersects[ 0 ].object.parent;
+                scene_arrow.position.set(scene_item_info[cur_model_id].x,20+Math.sin(performance.now()/100),scene_item_info[cur_model_id].z);
             }
             else {
-                spotLight.angle = 0;
+                scene_arrow.position.set(10000,-20,10000);
             }
         }
         else{
             cur_model_id = null;
+            scene_arrow.position.set(10000,-20,10000);
         }
 
 
     } else {
         cur_model_id = null;
-        spotLight.angle = 0;
         INTERSECTED = null;
+        if(scene_arrow != undefined)
+        scene_arrow.position.set(10000,-20,10000);
     }
 
     if(animation_playing != last_animation && loaded){
@@ -324,10 +317,11 @@ function loadCharacter(str) {
             material.morphTargets = true;
             material.color.setHex( 0xffffff );
             scene_character = new THREE.Mesh( geometry, materials );
-            scene_character.scale.set(0.5,0.5,0.5);
-            scene_character.position.set(0,-8,-3);
+            scene_character.scale.set(0.7,0.7,0.7);
+            scene_character.position.set(0,-12,-8);
             scene_character.rotateY(Math.PI);
             scene_character.matrixAutoUpdate = false;
+            scene_character.castShadow = true;
             scene_character.updateMatrix();
             controls.getObject().add(scene_character);
             mixer.clipAction( geometry.animations[ animation_playing ], scene_character )
@@ -347,6 +341,40 @@ function loadCharacter(str) {
             console.log( err );
         }
     );
+}
+
+//加载箭头
+function loadArrowModel() {
+
+    scene_mtlloader.setPath(my_path.MaterialPath);
+    scene_mtlloader.setTexturePath(my_path.TexturePath);
+
+    scene_mtlloader.load("arrow.mtl",mtl);
+    function mtl(materials) {
+        materials.preload();
+        scene_objloader.setMaterials(materials)
+    }
+
+    scene_objloader.setPath(my_path.ModelPath);
+
+    scene_objloader.load(
+        "arrow.obj",
+
+        function (obj) {
+            obj.traverse(function (child) {
+                if (child instanceof THREE.Mesh){
+                    child.material.side = THREE.DoubleSide;
+                }
+            });
+            obj.position.x = 10000;
+            obj.position.y = 20;
+            obj.position.z = 10000;
+            obj.scale.set(1,1,1);
+            scene_arrow = obj;
+            scene.add(obj);
+        }
+    );
+
 }
 //加载模型
 function loadNextModel() {
@@ -390,10 +418,9 @@ function loadSceneModels(obj_name,mtl_group,index) {
             obj.position.y = 5;
             obj.position.z = scene_item_info[index].z;
             obj.name = index;
-            obj.scale.x = scene_item_info[index].scale_rate;
-            obj.scale.y = scene_item_info[index].scale_rate;
-            obj.scale.z = scene_item_info[index].scale_rate;
+            obj.scale.set(scene_item_info[index].scale_rate,scene_item_info[index].scale_rate,scene_item_info[index].scale_rate);
             obj.rotateY(scene_item_info[index].yaw);
+            obj.castShadow = true;
             raycaster_node.add(obj);
             loadNextModel();
         },

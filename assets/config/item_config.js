@@ -100,15 +100,15 @@ scene_item_info[155] = {};
 scene_item_info[156] = {};
 scene_item_info[157] = {};
 
-scene_item_info[148].x =  20;scene_item_info[148].z =  20;scene_item_info[148].scale_rate = 1;scene_item_info[148].yaw = 1;
-scene_item_info[149].x =  15;scene_item_info[149].z =  15;scene_item_info[149].scale_rate = 1;scene_item_info[149].yaw = 1;
-scene_item_info[150].x =  10;scene_item_info[150].z =  10;scene_item_info[150].scale_rate = 1;scene_item_info[150].yaw = 1;
-scene_item_info[151].x =  20;scene_item_info[151].z = -20;scene_item_info[151].scale_rate = 1;scene_item_info[151].yaw = 1;
-scene_item_info[152].x =  15;scene_item_info[152].z = -15;scene_item_info[152].scale_rate = 1;scene_item_info[152].yaw = 1;
-scene_item_info[153].x = -15;scene_item_info[153].z = -20;scene_item_info[153].scale_rate = 1;scene_item_info[153].yaw = 1;
-scene_item_info[154].x = -15;scene_item_info[154].z = -10;scene_item_info[154].scale_rate = 1;scene_item_info[154].yaw = 1;
-scene_item_info[155].x = -15;scene_item_info[155].z =   0;scene_item_info[155].scale_rate = 1;scene_item_info[155].yaw = 1;
-scene_item_info[156].x = -15;scene_item_info[156].z =  10;scene_item_info[156].scale_rate = 1;scene_item_info[156].yaw = 1;
-scene_item_info[157].x = -15;scene_item_info[157].z =  20;scene_item_info[157].scale_rate = 1;scene_item_info[157].yaw = 1;
+scene_item_info[148].x =  200;scene_item_info[148].z = 0;scene_item_info[148].scale_rate = 3;scene_item_info[148].yaw = 1;
+scene_item_info[149].x =  160;scene_item_info[149].z = 0;scene_item_info[149].scale_rate = 3;scene_item_info[149].yaw = 1;
+scene_item_info[150].x =  120;scene_item_info[150].z = 0;scene_item_info[150].scale_rate = 3;scene_item_info[150].yaw = 1;
+scene_item_info[151].x =  80;scene_item_info[151].z = 0;scene_item_info[151].scale_rate = 3;scene_item_info[151].yaw = 1;
+scene_item_info[152].x =  40;scene_item_info[152].z = 0;scene_item_info[152].scale_rate = 3;scene_item_info[152].yaw = 1;
+scene_item_info[153].x = -40;scene_item_info[153].z = 0;scene_item_info[153].scale_rate = 3;scene_item_info[153].yaw = 1;
+scene_item_info[154].x = -80;scene_item_info[154].z = 0;scene_item_info[154].scale_rate = 3;scene_item_info[154].yaw = 1;
+scene_item_info[155].x = -120;scene_item_info[155].z = 0;scene_item_info[155].scale_rate = 3;scene_item_info[155].yaw = 1;
+scene_item_info[156].x = -160;scene_item_info[156].z = 0;scene_item_info[156].scale_rate = 3;scene_item_info[156].yaw = 1;
+scene_item_info[157].x = -200;scene_item_info[157].z = 0;scene_item_info[157].scale_rate = 3;scene_item_info[157].yaw = 1;
 
 
